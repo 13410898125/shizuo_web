@@ -29,6 +29,26 @@ const routes = [
     name: "me",
     component: () => import("@/views/MeView.vue"),
   },
+  {
+    path: "/produce",
+    name: "produce",
+    component: () => import("@/views/ProduceView.vue"),
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/LoginView.vue"),
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("@/views/RegisterView.vue"),
+  },
+  {
+    path: "/shopcart",
+    name: "shopcart",
+    component: () => import("@/views/ShopCartView.vue"),
+  },
 ];
 
 const router = new VueRouter({

@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <div class="top_bar">
+    <!-- <div class="top_bar">
       <svg
         style="width: 35px; height: 35px; margin-left: 20px; margin-top: 3px"
         role="img"
@@ -25,50 +25,103 @@
       </svg>
       <div class="top_bar_right">帮助 | 登陆</div>
     </div>
-    <div class="nav_bar"></div>
+    <div class="nav_bar"></div> -->
     <div class="notion_bar"></div>
     <div class="title_condition_bar"></div>
     <div class="content_box">
-      <div class="catalog_left"></div>
+      <div class="catalog_left">
+        <div>产品类型</div>
+        <div class="catalog_list">
+          <a
+            href="#"
+            class="catalog_item"
+            v-for="(item, index) in catalog_list"
+            :key="index"
+            >{{ item.text }}</a
+          >
+        </div>
+      </div>
       <div class="content_right">
         <div class="produce_list">
-          <div class="produce_box"></div>
-          <div class="produce_box"></div>
-          <div class="produce_box"></div>
+          <div
+            class="produce_box"
+            v-for="(item, index) in produce_list"
+            :key="index"
+          >
+            <div class="produce">
+              <img :src="item.img" class="produce_img" />
+              <div class="produce_content">
+                <div class="produce_title">{{ item.title }}</div>
+                <div class="produce_sub_title">{{ item.sub_title }}</div>
+                <div class="produce_price">¥ {{ item.price }}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <style>
+.catalog_item {
+  display: block;
+}
+.produce_price {
+  font-weight: 600;
+  font-size: 20px;
+  margin-left: 2px;
+  line-height: 40px;
+}
+.produce_sub_title {
+  padding-left: 2px;
+  color: rgb(117, 117, 117);
+  font-size: 16px;
+}
+.produce_title {
+  padding-left: 2px;
+  color: rgb(17, 17, 17);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+}
+.produce_content {
+  width: 100%;
+  padding-top: 10px;
+}
+.produce_img {
+  width: 100%;
+}
+.produce {
+  width: 94%;
+  margin-left: 3%;
+  margin-top: 20px;
+  height: 100%;
+  /* background-color: #ffa; */
+}
 .produce_box {
-  width: 30%;
-  height: 500px;
-  margin: 10px;
-  margin-left: 2.5%;
+  width: 33.3%;
   background-color: #fff;
 }
 .produce_list {
   width: 100%;
-  /* height: 500px; */
   display: flex;
-  background-color: rgb(184, 227, 214);
+  flex-wrap: wrap;
 }
 .content_right {
   width: 100%;
-  height: 1000px;
   padding: 0 30px;
   margin-right: 10px;
 }
 .catalog_left {
   margin-left: 40px;
   width: 300px;
-  height: 1000px;
+  height: 800px;
+  position: sticky;
+  top: 150px;
   background-color: rgb(211, 180, 180);
 }
 .content_box {
   width: 100%;
-  height: 1000px;
   display: flex;
   background-color: white;
 }
@@ -85,30 +138,6 @@
   height: 100px;
   box-shadow: rgb(229, 229, 229) 0px -1px 0px 0px inset;
   background: rgb(247, 247, 247) none repeat scroll 0% 0%;
-}
-.nav_bar {
-  position: fixed;
-  top: 40px;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  background: #fff;
-}
-.top_bar_right {
-  margin-left: auto;
-  margin-right: 30px;
-  text-align: center;
-  line-height: 40px;
-}
-.top_bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: #f5f5f5;
-  color: #111;
-  height: 40px;
-  width: 100%;
-  display: flex;
 }
 .root {
   width: 100%;
@@ -129,5 +158,130 @@ body {
 <script>
 export default {
   name: "IndexView",
+  data: () => {
+    return {
+      catalog_list: [
+        {
+          text: "球鞋",
+        },
+        {
+          text: "衣服",
+        },
+        {
+          text: "裤子",
+        },
+      ],
+      produce_list: [
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+        {
+          title: "Nike Air Force 1 '07 LV8",
+          sub_title: "耐克空军一号男子运动鞋",
+          price: "799",
+          img: "http://localhost/img/a1.png",
+        },
+      ],
+    };
+  },
 };
 </script>
