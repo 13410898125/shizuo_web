@@ -7,9 +7,9 @@
         </div>
       </div>
       <div class="content_box_right">
-        <h1 class="produce_title">Nike Air Force 1 '07 LX</h1>
-        <div class="produce_sub_title">男子起绒圆领上衣</div>
-        <div class="produce_price">¥699</div>
+        <h1 class="produce_title">{{ product.productName }}</h1>
+        <div class="produce_sub_title">{{ product.productTag }}</div>
+        <div class="produce_price">¥{{ product.productPrice }}</div>
         <div class="size_box">
           <div class="size_title">
             <div>选择尺码</div>
@@ -33,9 +33,7 @@
         </div>
         <div class="content_notice">此产品不参与网站促销活动和折扣优惠活动</div>
         <p class="content_description">
-          LeBron XIX EP
-          男/女篮球鞋助你在关键时刻和面临压力时一往无前。鞋款兼备Max Air x Zoom
-          Air缓震系统和稳固贴合性能，借助勒布朗这类强劲球员的强大能量，制胜球场，所向披靡。舒适内靴巧搭精巧覆面设计，结合穿行其间的鞋带，有效减少双足在鞋内打滑。鞋舌和鞋口搭配气囊，帮助减轻鞋身重量，保持脚踝舒适贴合，赋予球员稳固脚感和十足信心，全力以赴应对挑战。
+          {{ product.productDescription }}
         </p>
         <p class="content_description">
           价格说明（此说明仅当出现价格比较时有效)
@@ -162,10 +160,12 @@
 }
 </style>
 <script>
+import axios from "axios";
 export default {
   name: "ProduceView",
-  data: () => {
+  data: function () {
     return {
+      product: {},
       size_list: [
         {
           size: "35.5",
@@ -220,18 +220,22 @@ export default {
           display: true,
         },
       ],
-      img_list: [
-        "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/1e295165-92d8-4627-9b0c-a2a32e269fad/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-        "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/c2ba14ff-7c3a-4d5b-88f8-4dd940665ebe/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-        "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/bbeb32e9-31ee-46c8-9723-4b22184312dc/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-        "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/a83634dc-931d-47ac-9880-23c48338ff45/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-        "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/1d4fd627-ac2b-46cd-abef-5152ab42ea0b/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-        "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/1d4fd627-ac2b-46cd-abef-5152ab42ea0b/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-        "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/502b2efd-9104-4400-898d-2c5a1b400ecb/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-        "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/995c18d7-3da0-4bbb-b3ee-7f97065dc4d8/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-        "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/9a109b8f-ed45-469d-9474-8ffc8949263a/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-      ],
+      img_list: [],
     };
+  },
+  methods: {},
+  mounted() {
+    console.log(this.$store.state.productId);
+    let that = this;
+    axios
+      .get("http://124.71.80.246/product/item/" + this.$store.state.productId)
+      .then((res) => {
+        console.log(res.data);
+        that.product = res.data;
+        let imgs = res.data.productImgurl;
+        console.log(imgs);
+        that.img_list = imgs.split("##");
+      });
   },
 };
 </script>

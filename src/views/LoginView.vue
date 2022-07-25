@@ -17,8 +17,8 @@
       </div>
       <div class="input_group">
         <div class="info_input">
-          <el-input placeholder="手机号码" v-model="phone">
-            <template slot="prepend">+86</template>
+          <el-input placeholder="邮箱" v-model="email">
+            <template slot="prepend"></template>
           </el-input>
         </div>
         <div class="info_input">
@@ -94,7 +94,7 @@ export default {
   name: "MeView",
   data: () => {
     return {
-      phone: "",
+      email: " ",
     };
   },
 };

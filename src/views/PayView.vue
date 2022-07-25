@@ -1,9 +1,9 @@
 <template>
   <div class="root">
-    <h3 class="shopcart_title">购物车</h3>
-    <div class="line-all-y"></div>
     <div class="content">
       <div class="content_left">
+        <h3 class="shopcart_title">购物车</h3>
+        <div class="line-all-y"></div>
         <div class="shopcart_list">
           <div
             v-for="(item, index) in shopcart_list"
@@ -58,9 +58,7 @@
 </template>
 <style>
 .item_option {
-  margin-top: 55px;
-  cursor: pointer;
-  text-decoration: solid;
+  margin-top: 50px;
 }
 .shop_cart_btn {
   width: 90%;
@@ -156,14 +154,9 @@
   width: 33.33333%;
   background-color: #fff;
 }
-::-webkit-scrollbar {
-  display: none;
-}
 .content_left {
   width: 66.66667%;
-  height: 90vh;
   padding: 0 8px;
-  overflow: scroll;
 }
 .content {
   display: flex;
