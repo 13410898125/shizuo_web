@@ -24,14 +24,14 @@
         <div class="info_input">
           <el-input
             placeholder="请输入密码"
-            v-model="input"
+            v-model="passwd"
             show-password
           ></el-input>
         </div>
         <div class="forget_pwd_tip">忘记密码？</div>
       </div>
       <div class="btn_box">
-        <button class="login_btn">登陆</button>
+        <button class="login_btn" @click="login">登陆</button>
       </div>
     </div>
   </div>
@@ -90,12 +90,63 @@
 }
 </style>
 <script>
+import qs from "qs";
+import axios from "axios";
 export default {
   name: "MeView",
   data: () => {
     return {
       email: " ",
+      passwd: "",
     };
+  },
+  methods: {
+    login() {
+      axios({
+        method: "post",
+        url: "/api/user/login",
+        data: {
+          userName: this.email,
+          userPassword: this.passwd,
+        },
+        transformRequest: [
+          function (data) {
+            // 将请求数据转换成功 formdata 接收格式
+            return qs.stringify(data);
+          },
+        ],
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        console.log(res);
+        this.$alert("登录成功", "消息提示", {
+          confirmButtonText: "确定",
+        });
+      });
+      // axios({
+      //   method: "post",
+      //   url: "/api/user/login",
+      //   data: {
+      //     userName: this.email,
+      //     userPassword: this.passwd,
+      //   },
+      //   transformRequest: [
+      //     function (data) {
+      //       // 将请求数据转换成功 formdata 接收格式
+      //       return stringify(data);
+      //     },
+      //   ],
+      //   headers: {
+      //     "Content-Type": "application/x-www-form-urlencoded",
+      //   },
+      // }).then((res) => {
+      //   console.log(res.data);
+      //   this.$alert("登录成功", "消息提示", {
+      //     confirmButtonText: "确定",
+      //   });
+      // });
+    },
   },
 };
 </script>

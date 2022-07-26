@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="button_group">
-          <button class="shop_cart_btn">加入购物车</button>
+          <button class="shop_cart_btn" @click="addcart">加入购物车</button>
           <button class="star_btn">加入购物车</button>
         </div>
         <div class="content_notice">此产品不参与网站促销活动和折扣优惠活动</div>
@@ -160,6 +160,7 @@
 }
 </style>
 <script>
+import qs from "qs";
 import axios from "axios";
 export default {
   name: "ProduceView",
@@ -223,7 +224,34 @@ export default {
       img_list: [],
     };
   },
-  methods: {},
+  methods: {
+    addcart() {
+      console.log(this.product);
+      axios({
+        method: "post",
+        url: "/api/cart/save",
+        data: {
+          userId: "c263d924-b19e-4dbb-9f49-159c9e392724",
+          productId: this.product.productId,
+          num: "3",
+        },
+        transformRequest: [
+          function (data) {
+            // 将请求数据转换成功 formdata 接收格式
+            return qs.stringify(data);
+          },
+        ],
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        console.log(res);
+        this.$alert("添加成功", "消息提示", {
+          confirmButtonText: "确定",
+        });
+      });
+    },
+  },
   mounted() {
     console.log(this.$store.state.productId);
     let that = this;

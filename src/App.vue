@@ -23,6 +23,10 @@
           d="M24 7.8L6.442 15.276c-1.456.616-2.679.925-3.668.925-1.12 0-1.933-.392-2.437-1.177-.317-.504-.41-1.143-.28-1.918.13-.775.476-1.6 1.036-2.478.467-.71 1.232-1.643 2.297-2.8a6.122 6.122 0 00-.784 1.848c-.28 1.195-.028 2.072.756 2.632.373.261.886.392 1.54.392.522 0 1.11-.084 1.764-.252L24 7.8z"
         /> -->
       </svg>
+      <img
+        src="https://img2.woyaogexing.com/2022/07/23/5e31ec180d994553!400x400.jpg"
+        style="width: 35px; height: 35px; border-radius: 5px"
+      />
       <div class="top_bar_right">
         <router-link to="/login">登录</router-link>|
         <router-link to="/register">注册</router-link>
@@ -30,7 +34,7 @@
     </div>
     <div class="nav_bar">
       <svg
-        style="width: 50px; height: 50px; margin-left: 20px; margin-top: 5px"
+        style="width: 40px; height: 40px; margin-left: 20px; margin-top: 5px"
         role="img"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"

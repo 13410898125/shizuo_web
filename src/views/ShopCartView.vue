@@ -11,11 +11,11 @@
             class="shopcart_item"
           >
             <div class="left_img">
-              <img :src="item.img" style="width: 100%; height: 100%" />
+              <img :src="item.productImage" style="width: 100%; height: 100%" />
             </div>
             <div class="right_content">
               <div class="item_title">
-                {{ item.title }}
+                {{ item.productName }}
               </div>
               <div class="item_subtitle">
                 {{ item.subtitle }}
@@ -23,12 +23,10 @@
               <div class="item_color">
                 {{ item.color }}
               </div>
-              <div class="item_other">
-                尺码 {{ item.size }} 数量 {{ item.count }}
-              </div>
-              <div class="item_option">删除</div>
+              <div class="item_other">尺码 41 | 数量 {{ item.num }}</div>
+              <div class="item_option" @click="del_cart(item)">删除</div>
             </div>
-            <div class="item_price">¥ 799</div>
+            <div class="item_price">¥ {{ item.productPrice }}</div>
           </div>
         </div>
       </div>
@@ -37,7 +35,7 @@
         <div class="right_describe">您有促销代码吗？</div>
         <div class="right_item">
           <div class="item_left">小计</div>
-          <div class="item_right">￥749.00</div>
+          <div class="item_right">￥{{ totalprice }}.00</div>
         </div>
         <div class="right_item">
           <div class="item_left">预计运费和手续费</div>
@@ -175,53 +173,64 @@
 }
 </style>
 <script>
+import axios from "axios";
+import qs from "qs";
 export default {
   name: "MeView",
   data: () => {
     return {
       shopcart_list: [
-        {
-          title: "Nike Dunk HI Retro",
-          img: "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/1e295165-92d8-4627-9b0c-a2a32e269fad/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-          subtitle: "男子运动鞋",
-          color: "白色/珍珠白/孔雀绿",
-          size: "40.5",
-          count: 1,
-        },
-        {
-          title: "Nike Dunk HI Retro",
-          img: "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/1e295165-92d8-4627-9b0c-a2a32e269fad/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-          subtitle: "男子运动鞋",
-          color: "白色/珍珠白/孔雀绿",
-          size: "40.5",
-          count: 1,
-        },
-        {
-          title: "Nike Dunk HI Retro",
-          img: "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/1e295165-92d8-4627-9b0c-a2a32e269fad/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-          subtitle: "男子运动鞋",
-          color: "白色/珍珠白/孔雀绿",
-          size: "40.5",
-          count: 1,
-        },
-        {
-          title: "Nike Dunk HI Retro",
-          img: "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/1e295165-92d8-4627-9b0c-a2a32e269fad/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-          subtitle: "男子运动鞋",
-          color: "白色/珍珠白/孔雀绿",
-          size: "40.5",
-          count: 1,
-        },
-        {
-          title: "Nike Dunk HI Retro",
-          img: "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/1e295165-92d8-4627-9b0c-a2a32e269fad/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
-          subtitle: "男子运动鞋",
-          color: "白色/珍珠白/孔雀绿",
-          size: "40.5",
-          count: 1,
-        },
+        // {
+        //   title: "Nike Dunk HI Retro",
+        //   img: "https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/1e295165-92d8-4627-9b0c-a2a32e269fad/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png",
+        //   subtitle: "男子运动鞋",
+        //   color: "白色/珍珠白/孔雀绿",
+        //   size: "40.5",
+        //   count: 1,
+        // },
       ],
     };
+  },
+  methods: {
+    del_cart(e) {
+      console.log(e);
+      axios({
+        method: "post",
+        url: "/api/cart/delete",
+        data: {
+          userId: "c263d924-b19e-4dbb-9f49-159c9e392724",
+          productId: e.productId,
+        },
+        transformRequest: [
+          function (data) {
+            // 将请求数据转换成功 formdata 接收格式
+            return qs.stringify(data);
+          },
+        ],
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        console.log(res);
+        this.$alert("注册成功", "消息提示", {
+          confirmButtonText: "确定",
+        });
+      });
+    },
+  },
+  mounted() {
+    axios
+      .get("/api/cart/query?userId=c263d924-b19e-4dbb-9f49-159c9e392724")
+      .then((res) => {
+        console.log(res.data);
+        this.shopcart_list = res.data.rows;
+        let sum = 0;
+        for (let i = 0; i < res.data.rows.length; i++) {
+          sum += res.data.rows[i].num * res.data.rows[i].productPrice;
+        }
+        this.totalprice = sum;
+        console.log(this.shopcart_list);
+      });
   },
 };
 </script>

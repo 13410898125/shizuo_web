@@ -18,26 +18,22 @@
       <div class="input_group">
         <div class="info_input">
           <el-input placeholder="邮箱" v-model="email">
-            <template slot="prepend"></template>
+            <template slot="prepend">email</template>
           </el-input>
         </div>
         <div class="info_input">
-          <el-input
-            placeholder="请输入密码"
-            v-model="input"
-            show-password
-          ></el-input>
+          <el-input placeholder="请输入名字" v-model="name">
+            <template slot="prepend">name</template>
+          </el-input>
         </div>
         <div class="info_input">
-          <el-input
-            placeholder="请再次输入"
-            v-model="input"
-            show-password
-          ></el-input>
+          <el-input placeholder="请再次输入" v-model="passwd" type="passwd"
+            ><template slot="prepend">pwd</template></el-input
+          >
         </div>
       </div>
       <div class="btn_box">
-        <button class="login_btn">注册</button>
+        <button class="login_btn" @click="register">注册</button>
       </div>
     </div>
   </div>
@@ -96,12 +92,43 @@
 }
 </style>
 <script>
+import axios from "axios";
+import qs from "qs";
 export default {
   name: "MeView",
   data: () => {
     return {
-      phone: "",
+      email: "",
+      passwd: "",
+      name: "",
     };
+  },
+  methods: {
+    register() {
+      axios({
+        method: "post",
+        url: "/api/user/save",
+        data: {
+          userName: this.name,
+          userEmail: this.email,
+          userPassword: this.passwd,
+        },
+        transformRequest: [
+          function (data) {
+            // 将请求数据转换成功 formdata 接收格式
+            return qs.stringify(data);
+          },
+        ],
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        console.log(res);
+        this.$alert("注册成功", "消息提示", {
+          confirmButtonText: "确定",
+        });
+      });
+    },
   },
 };
 </script>
