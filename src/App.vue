@@ -51,9 +51,11 @@
         <router-link class="router_item" to="/me">限时秒杀</router-link>
       </div>
     </div>
+
     <div>
       <router-view></router-view>
     </div>
+    
   </div>
 </template>
 <style>
