@@ -48,7 +48,6 @@
         <router-link class="router_item" to="/">首页</router-link>
         <router-link class="router_item" to="/shopcart">购物车</router-link>
         <router-link class="router_item" to="/order">订单</router-link>
-        <router-link class="router_item" to="/pay">结算</router-link>
         <router-link class="router_item" to="/me">限时秒杀</router-link>
       </div>
     </div>

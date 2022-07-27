@@ -22,6 +22,8 @@
               class="size_item"
               v-for="(item, index) in size_list"
               :key="index"
+              :class="{ size_item_click: selectItemVal == item.size }"
+              @click="change_select(item.size)"
             >
               {{ item.size }}
             </div>
@@ -29,7 +31,7 @@
         </div>
         <div class="button_group">
           <button class="shop_cart_btn" @click="addcart">加入购物车</button>
-          <button class="star_btn">加入购物车</button>
+          <button class="star_btn" @click="goto_cart">去购物车查看</button>
         </div>
         <div class="content_notice">此产品不参与网站促销活动和折扣优惠活动</div>
         <p class="content_description">
@@ -43,7 +45,7 @@
     </div>
   </div>
 </template>
-<style>
+<style scoped>
 .content_description {
   margin-top: 40px;
   line-height: 1.75;
@@ -77,6 +79,11 @@
 }
 .button_group {
   margin-top: 40px;
+}
+.size_item_click {
+  background-color: gray;
+  color: white;
+  font-weight: bold;
 }
 .size_item {
   width: calc((100% - 50px) / 5);
@@ -169,18 +176,6 @@ export default {
       product: {},
       size_list: [
         {
-          size: "35.5",
-          display: true,
-        },
-        {
-          size: "36",
-          display: true,
-        },
-        {
-          size: "37",
-          display: true,
-        },
-        {
           size: "37.5",
           display: true,
         },
@@ -189,31 +184,31 @@ export default {
           display: true,
         },
         {
-          size: "35.5",
-          display: true,
-        },
-        {
-          size: "35.5",
-          display: true,
-        },
-        {
           size: "38.5",
           display: true,
         },
         {
-          size: "35.5",
+          size: "39",
           display: true,
         },
         {
-          size: "38",
-          display: false,
+          size: "39.5",
+          display: true,
         },
         {
           size: "40",
           display: true,
         },
         {
+          size: "40.5",
+          display: false,
+        },
+        {
           size: "41",
+          display: true,
+        },
+        {
+          size: "42",
           display: true,
         },
         {
@@ -222,9 +217,13 @@ export default {
         },
       ],
       img_list: [],
+      selectItemVal: 40,
     };
   },
   methods: {
+    change_select(e) {
+      this.selectItemVal = e;
+    },
     addcart() {
       console.log(this.product);
       axios({
@@ -250,6 +249,9 @@ export default {
           confirmButtonText: "确定",
         });
       });
+    },
+    goto_cart() {
+      this.$router.push("/shopcart");
     },
   },
   mounted() {

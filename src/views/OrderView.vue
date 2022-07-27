@@ -3,23 +3,77 @@
     <div class="content">
       <h3 class="order_title">订单</h3>
       <!-- <div class="line-all-y"></div> -->
-      <el-table :data="tableData" border style="width: 100%">
-        <el-table-column>
-          <img
-            style="width: 100px; height: 100px"
-            src="https://static.nike.com.cn/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/1e295165-92d8-4627-9b0c-a2a32e269fad/air-force-1-07-60-%E7%A9%BA%E5%86%9B%E4%B8%80%E5%8F%B7%E5%A5%B3%E5%AD%90%E8%BF%90%E5%8A%A8%E9%9E%8B-kPsXF3.png"
-          />
-        </el-table-column>
-        <el-table-column prop="date" label="日期" width="180">
-        </el-table-column>
-        <el-table-column prop="name" label="姓名" width="180">
-        </el-table-column>
-        <el-table-column prop="address" label="地址"> </el-table-column>
-      </el-table>
+      <div
+        class="order"
+        v-for="(item, index) in order_list"
+        :key="index"
+        :data-productid="item.orderId"
+      >
+        <div style="display: flex">
+          <div>订单ID: {{ item.orderId }}</div>
+          <div style="margin-left: auto">时间: {{ item.orderTime }}</div>
+        </div>
+
+        <div style="width: 95%; margin-left: 5%">
+          <div
+            v-for="(item1, index1) in item.orderItems"
+            :key="index1"
+            style="
+              display: flex;
+              margin-top: 5px;
+              margin-bottom: 10px;
+              border-bottom: 1px solid #eee;
+            "
+          >
+            <img
+              :src="item1.productImage"
+              style="width: 200px; height: 200px"
+            />
+            <div>
+              <div
+                style="
+                  font-size: 24px;
+                  font-weight: 500;
+                  margin-top: 20px;
+                  margin-left: 15px;
+                "
+              >
+                {{ item1.productName }}
+              </div>
+            </div>
+            <div
+              style="
+                margin-left: auto;
+                margin-top: 20px;
+                margin-right: 20px;
+                text-align: right;
+              "
+            >
+              <div>¥ {{ item1.productPrice }}</div>
+              <div>x {{ item1.num }}</div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex">
+          <el-button
+            type="primary"
+            round
+            style="margin-left: auto"
+            @click="pay(item)"
+            >支付</el-button
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <style>
+.order {
+  border-top: solid 2px rgb(202, 202, 202);
+  width: 90%;
+  margin-left: 5%;
+  margin-bottom: 30px;
+}
 .name {
   width: 10%;
   overflow: scroll;
@@ -112,42 +166,59 @@ export default {
   name: "ProduceView",
   data: function () {
     return {
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄",
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄",
-        },
-      ],
+      order_list: [],
     };
   },
-  methods: {},
+  methods: {
+    getTime(t) {
+      var date = new Date(t);
+      let Y = date.getFullYear() + "-";
+      let M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      let D = date.getDate() + " ";
+      let h = date.getHours() + ":";
+      let m = date.getMinutes() + ":";
+      let s = date.getSeconds();
+      return Y + M + D + h + m + s;
+    },
+    pay(e) {
+      console.log(e);
+      this.$prompt("请输入支付密码", "提示", {
+        confirmButtonText: "确认支付",
+        cancelButtonText: "取消",
+        inputType: "password",
+        center: true,
+        roundButton: true,
+        inputErrorMessage: "支付密码不正确",
+      })
+        .then(({ value }) => {
+          this.$message({
+            type: "success",
+            message: "支付成功: " + value,
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "支付失败",
+          });
+        });
+    },
+  },
   mounted() {
     console.log(this.$store.state.productId);
-    let that = this;
+    // let that = this;
     axios
-      .get("http://124.71.80.246/product/item/" + this.$store.state.productId)
+      .get("http://124.71.80.246/order/query?page=1&rows=5&userId=4")
       .then((res) => {
         console.log(res.data);
-        that.product = res.data;
-        let imgs = res.data.productImgurl;
-        console.log(imgs);
-        that.img_list = imgs.split("##");
+        for (let i = 0; i < res.data.rows.length; i++) {
+          res.data.rows[i].orderTime = this.getTime(res.data.rows[i].orderTime);
+          console.log(res.data.rows[i].orderTime);
+        }
+        this.order_list = res.data.rows;
       });
   },
 };

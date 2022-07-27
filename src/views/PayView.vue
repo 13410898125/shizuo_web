@@ -24,7 +24,6 @@
                 {{ item.color }}
               </div>
               <div class="item_other">尺码 41 | 数量 {{ item.num }}</div>
-              <div class="item_option" @click="del_cart(item)">删除</div>
             </div>
             <div class="item_price">¥ {{ item.productPrice }}</div>
           </div>
@@ -32,8 +31,37 @@
       </div>
     </div>
     <div class="content_right">
-      <div class="right_title">摘要</div>
-      <div class="right_describe">您有促销代码吗？</div>
+      <div class="right_title">订单</div>
+      <div class="right_describe">
+        <div v-if="receive.name" class="receive_info">
+          <div>收货人： {{ receive.name }}</div>
+          <div>电话号码：{{ receive.phone }}</div>
+          <div>收获地址：{{ receive.address }}</div>
+          <el-button type="text" @click="dialogFormVisible = true">
+            修改
+          </el-button>
+        </div>
+        <el-button type="text" @click="dialogFormVisible = true" v-else>
+          编辑您的收件信息
+        </el-button>
+      </div>
+      <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+        <el-form :model="receive">
+          <el-form-item label="收件人" :label-width="formLabelWidth">
+            <el-input v-model="receive.name" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号码" :label-width="formLabelWidth">
+            <el-input v-model="receive.phone" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="收件地址" :label-width="formLabelWidth">
+            <el-input v-model="receive.address" autocomplete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="add_receive">确 定</el-button>
+        </div>
+      </el-dialog>
       <div class="right_item">
         <div class="item_left">小计</div>
         <div class="item_right">￥{{ totalprice }}.00</div>
@@ -45,16 +73,20 @@
       <div class="line-y"></div>
       <div class="right_item">
         <div class="item_left">总计</div>
-        <div class="item_right">￥749.00</div>
+        <div class="item_right">￥{{ totalprice }}.00</div>
       </div>
       <div class="line-y"></div>
       <div class="button_group">
-        <button class="shop_cart_btn">结算</button>
+        <button class="shop_cart_btn" @click="pay">结算</button>
       </div>
     </div>
   </div>
 </template>
-<style>
+<style scoped>
+.receive_info {
+  color: #444;
+  font-size: small;
+}
 .item_option {
   margin-top: 55px;
   cursor: pointer;
@@ -101,7 +133,7 @@
 }
 .right_describe {
   padding: 0 10px;
-  height: 50px;
+  /* height: 50px; */
 }
 .right_title {
   height: 60px;
@@ -152,8 +184,8 @@
 }
 .content_right {
   width: 60%;
-  margin-top: 100px;
-  margin-block: 200px;
+  margin-top: 50px;
+  margin-bottom: 200px;
   margin-left: 20%;
   background-color: #fff;
 }
@@ -182,6 +214,15 @@ export default {
   name: "MeView",
   data: () => {
     return {
+      has_good: false,
+      totalprice: 0,
+      formLabelWidth: "80px",
+      dialogFormVisible: false,
+      receive: {
+        name: "",
+        phone: "",
+        address: "",
+      },
       shopcart_list: [
         // {
         //   title: "Nike Dunk HI Retro",
@@ -195,14 +236,33 @@ export default {
     };
   },
   methods: {
-    del_cart(e) {
-      console.log(e);
+    add_receive() {
+      this.dialogFormVisible = false;
+      console.log(this.receive);
+    },
+    pay() {
+      var cart_str = "";
+      var list = this.shopcart_list;
+      for (let i = 0; i < list.length; i++) {
+        cart_str +=
+          list[i].productId +
+          "##" +
+          list[i].productPrice +
+          "##" +
+          list[i].num +
+          "##";
+      }
+      if (cart_str.length != 0) {
+        cart_str = cart_str.substr(0, cart_str.length - 2);
+      }
+      console.log(cart_str);
       axios({
         method: "post",
-        url: "/api/cart/delete",
+        url: "http://124.71.80.246/order/save",
         data: {
           userId: "c263d924-b19e-4dbb-9f49-159c9e392724",
-          productId: e.productId,
+          carts: cart_str,
+          orderReceiverinfo: "华南师范大学南海校区",
         },
         transformRequest: [
           function (data) {
@@ -214,9 +274,20 @@ export default {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       }).then((res) => {
+        axios
+          .get(
+            "http://124.71.80.246/cart/clear?userId=" +
+              "c263d924-b19e-4dbb-9f49-159c9e392724"
+          )
+          .then((res) => {
+            console.log("clear cart: ", res.data);
+          });
         console.log(res);
-        this.$alert("注册成功", "消息提示", {
+        this.$alert("创建成功", "创建订单", {
           confirmButtonText: "确定",
+        }).then(() => {
+          // location.reload();
+          this.$router.go(-1);
         });
       });
     },
@@ -232,6 +303,11 @@ export default {
           sum += res.data.rows[i].num * res.data.rows[i].productPrice;
         }
         this.totalprice = sum;
+        if (sum != 0) {
+          this.has_good = true;
+        } else {
+          this.has_good = false;
+        }
         console.log(this.shopcart_list);
       });
   },

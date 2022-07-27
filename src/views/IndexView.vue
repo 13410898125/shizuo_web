@@ -70,7 +70,7 @@
     </div>
   </div>
 </template>
-<style>
+<style scoped>
 .input_search {
   height: 30px;
   width: 200px;
@@ -130,6 +130,7 @@
 }
 .produce_img {
   width: 100%;
+  /* width: 430px; */
   height: 474px;
 }
 .produce {

@@ -48,13 +48,13 @@
         </div>
         <div class="line-y"></div>
         <div class="button_group">
-          <button class="shop_cart_btn">结算</button>
+          <button class="shop_cart_btn" @click="goto_order">结算</button>
         </div>
       </div>
     </div>
   </div>
 </template>
-<style>
+<style scoped>
 .item_option {
   margin-top: 55px;
   cursor: pointer;
@@ -159,7 +159,7 @@
 }
 .content_left {
   width: 66.66667%;
-  height: 90vh;
+  height: 82vh;
   padding: 0 8px;
   overflow: scroll;
 }
@@ -216,6 +216,9 @@ export default {
           confirmButtonText: "确定",
         });
       });
+    },
+    goto_order() {
+      this.$router.push("/pay");
     },
   },
   mounted() {
