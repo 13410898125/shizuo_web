@@ -33,20 +33,56 @@
       </div>
     </div>
     <div class="title_condition_bar">
-      <div class="catalog_list">
-        <!-- <div
+      <!-- <div class="catalog_list">
+        <div
           class="catalog_item"
           v-for="(item, index) in catalog_list"
           :key="index"
         >
           {{ item.text }}
-        </div> -->
-      </div>
+        </div>
+      </div> -->
       <!-- <div class="search_right">
         <input class="input_search" />
       </div> -->
+      男子跑步鞋
     </div>
     <div class="content_box">
+      <div class="catalog_left">
+        <div class="catalog">
+          <div class="only_text">
+            <div class="only_text_item">田径</div>
+            <div class="only_text_item">步行</div>
+            <div class="only_text_item">跑步</div>
+          </div>
+          <div class="cat_title">产品类型</div>
+          <div class="check_box_list">
+            <div class="check_box_item">
+              <input type="checkbox" name="box1" id="box1" class="checkbox" />
+              <label for="box1" class="label_x">鞋类</label>
+            </div>
+            <div class="check_box_item">
+              <input type="checkbox" name="box2" id="box2" class="checkbox" />
+              <label for="box3" class="label_x">跑鞋👟</label>
+            </div>
+          </div>
+          <div class="cat_title">性别</div>
+          <div class="check_box_list">
+            <div class="check_box_item">
+              <input type="checkbox" name="box3" id="box3" class="checkbox" />
+              <label for="box3" class="label_x">男</label>
+            </div>
+            <div class="check_box_item">
+              <input type="checkbox" name="box4" id="box4" class="checkbox" />
+              <label for="box4" class="label_x">女</label>
+            </div>
+            <div class="check_box_item">
+              <input type="checkbox" name="box5" id="box5" class="checkbox" />
+              <label for="box5" class="label_x">动物🐒</label>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="content_right">
         <div class="produce_list">
           <div
@@ -71,6 +107,56 @@
   </div>
 </template>
 <style scoped>
+.label_x {
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 17px;
+}
+.check_box_item {
+  margin: 7px 0;
+  font-size: medium;
+  font-weight: 400;
+  line-height: 40px;
+  padding-left: 10px;
+}
+.check_box_list {
+  width: 80%;
+  margin-left: 10%;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgb(206, 206, 206);
+}
+.cat_title {
+  font-size: large;
+  font-weight: bold;
+  padding-left: 30px;
+  margin-top: 20px;
+}
+.only_text_item {
+  font-weight: 400;
+  line-height: 40px;
+  padding-left: 10px;
+  font-size: 17px;
+}
+.only_text {
+  margin-top: 40px;
+  padding-bottom: 30px;
+  width: 80%;
+  margin-left: 10%;
+  border-bottom: 1px solid rgb(206, 206, 206);
+}
+
+.catalog {
+  width: 80%;
+  margin-left: 10%;
+  background-color: #f7f7f7;
+  padding-bottom: 20px;
+  border-radius: 8px;
+}
+.catalog_left {
+  width: 20%;
+  /* height: 100px; */
+  /* background-color: rgb(230, 224, 237); */
+}
 .input_search {
   height: 30px;
   width: 200px;
@@ -85,7 +171,7 @@
   padding-left: 30px;
 }
 .catalog_item {
-  width: 100px;
+  width: 20%;
   color: white;
   font-size: large;
   font-weight: 400;
@@ -132,8 +218,11 @@
   width: 100%;
   /* width: 430px; */
   height: 474px;
+  border-radius: 8px;
+  background: #f5f5f5;
 }
 .produce {
+  cursor: pointer;
   width: 94%;
   margin-left: 3%;
   margin-top: 20px;
@@ -161,6 +250,10 @@
   background-color: white;
 }
 .title_condition_bar {
+  line-height: 50px;
+  color: white;
+  padding-left: 300px;
+  font-size: large;
   display: flex;
   width: 100%;
   height: 50px;
